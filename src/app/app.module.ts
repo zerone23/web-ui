@@ -1,18 +1,49 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from './services/auth.guard';
+import { NoAuthGuard } from './services/auth.guard';
+
 
 
 import { AppComponent } from './app.component';
+import { AbnahmeComponent } from './components/abnahme/abnahme.component';
 
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { HomeComponent } from './components/home/home.component';
+import { LandingComponent } from './components/landing/landing.component';
+
+
+const appRoutes: Routes = [
+  { path: 'abnahme', component: AbnahmeComponent, canActivate: [AuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'landing', component: LandingComponent, canActivate: [NoAuthGuard] },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  { path: '**', redirectTo: 'landing' }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    AbnahmeComponent,
+    LandingComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+    OAuthModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [AuthGuard, NoAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

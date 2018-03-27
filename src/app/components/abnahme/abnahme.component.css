@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+mat-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.example-headers-align .mat-expansion-panel-header-title, 
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-grid-tile {
+  background-color: #e8eaf6;
+}
+
+.title-tile {
+  background-color: #ffffff;
+}
+
+.title {
+  text-align: center;
+}
+
+.TKommentar {
+  width: 60%;
+}
+
+.TAufgabe {
+  width: 20%;
+}
+
+.TAbnahme {
+  width: 20%;
+}
+
+.gridTile {
+  text-align: center;
+}
+
+.gTNummer {
+  width: 20%;
+}
+
+.gTKommentar {
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gTSmiley {
+  width: 10%;
+}
+
+.gTAbnahme {
+  width: 10%;
+}
+
+.gTIconGreen {
+  color: #72bb53;
+}
+
+.gTIconDefault {
+  opacity: 0.1;
+}
+
