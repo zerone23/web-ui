@@ -18,6 +18,8 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { HomeComponent } from './components/home/home.component';
 import { LandingComponent } from './components/landing/landing.component';
 
+import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
+
 
 const appRoutes: Routes = [
   { path: 'abnahme', component: AbnahmeComponent, canActivate: [AuthGuard] },
@@ -41,7 +43,10 @@ const appRoutes: Routes = [
     MaterialModule,
     BrowserAnimationsModule,
     OAuthModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    WebBluetoothModule.forRoot({
+      enableTracing: true
+    })
   ],
   providers: [AuthGuard, NoAuthGuard],
   bootstrap: [AppComponent]
