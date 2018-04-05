@@ -73,6 +73,14 @@ getAll() {
     this._batteryLevelService.discoverDevice();
   }
 
+  observeHeartRate() {
+    this._batteryLevelService.observeHeartrateMeasurement().subscribe(this.showBatteryLevel.bind(this));
+  }
+
+  startheartrateMeasurement() {
+    this._batteryLevelService.startHeartrateMeasurement();
+  }
+
   getBatteryLevel() {
     return this._batteryLevelService.getBatteryLevel().subscribe(this.showBatteryLevel.bind(this));
   }

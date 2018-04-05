@@ -31,7 +31,7 @@ export class BatteryLevelService {
   }
 
   streamValues() {
-    return this.ble.streamValues$().map((value: DataView) => value.getUint8(0));
+    return this.ble.streamValues$().map((value: DataView) => value.getUint8(1)); //get second value (1) based on xiaomi mis api
   }
 
   /**
@@ -89,6 +89,11 @@ export class BatteryLevelService {
                         BatteryLevelService.GATT_HEARTRATE_VALUE);
   }
 
+  observeHeartrateMeasurement() {
+      return this.observeValue(BatteryLevelService.GATT_HEARTRATE_SERVICE,
+                                BatteryLevelService.GATT_HEARTRATE_CHARACTERISTIC_NOTIFY);
+  }
+
   discoverDevice() {
     try{
         this.ble.discover$({
@@ -125,4 +130,30 @@ export class BatteryLevelService {
           console.error('Oops! can not write value');
         }
   }
+
+
+observeValue(serviceUUID, characteristicUUID) {
+        try {
+         return this.ble
+            .connectDevice$(this.bleDevice)
+            .mergeMap((gatt: BluetoothRemoteGATTServer) => {
+              return this.ble.getPrimaryService$(
+                gatt,
+                serviceUUID
+              );
+            })
+            .mergeMap((primaryService: BluetoothRemoteGATTService) => {
+              return this.ble.getCharacteristic$(
+                primaryService,
+                characteristicUUID
+              );
+            })
+            .mergeMap((characteristic: BluetoothRemoteGATTCharacteristic) => {
+                return this.ble.readValue$(characteristic);
+              })
+              .map((value: DataView) => value.getUint8(1)); //(1) based on xiaomi mis api
+          } catch (e) {
+            console.error('Oops! can not read value from %s');
+          }
+    }
 }
