@@ -4,12 +4,16 @@ import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 
 @Injectable()
 export class BatteryLevelService {
+
+  public bleDevice: BluetoothDevice;
+
   static GATT_CHARACTERISTIC_BATTERY_LEVEL = '00000006-0000-3512-2118-0009af100700';
   static GATT_PRIMARY_SERVICE = '0000fee0-0000-1000-8000-00805f9b34fb';
 
   static GATT_NOTIFICATION_SERVICE = '00001802-0000-1000-8000-00805f9b34fb';
   static GATT_NOTIFICATION_CHARACTERISTIC = '00002a06-0000-1000-8000-00805f9b34fb';
-  static GATT_NOTIFICATION_VALUE = new Uint8Array([2]);
+  static GATT_NOTIFICATION_VALUE_START = new Uint8Array([2]);
+  static GATT_NOTIFICATION_VALUE_STOP = new Uint8Array([0]);
 
   static GATT_HEARTRATE_SERVICE = '0000180d-0000-1000-8000-00805f9b34fb';
   static GATT_HEARTRATE_CHARACTERISTIC_WRITE = '00002a39-0000-1000-8000-00805f9b34fb';
@@ -70,7 +74,13 @@ export class BatteryLevelService {
   startNotification() {
     this.startWrite(BatteryLevelService.GATT_NOTIFICATION_SERVICE,
                      BatteryLevelService.GATT_NOTIFICATION_CHARACTERISTIC,
-                      BatteryLevelService.GATT_NOTIFICATION_VALUE);
+                      BatteryLevelService.GATT_NOTIFICATION_VALUE_START);
+  }
+
+  stopNotification() {
+    this.startWrite(BatteryLevelService.GATT_NOTIFICATION_SERVICE,
+                     BatteryLevelService.GATT_NOTIFICATION_CHARACTERISTIC,
+                      BatteryLevelService.GATT_NOTIFICATION_VALUE_STOP);
   }
 
   startHeartrateMeasurement() {
@@ -79,15 +89,22 @@ export class BatteryLevelService {
                         BatteryLevelService.GATT_HEARTRATE_VALUE);
   }
 
+  discoverDevice() {
+    try{
+        this.ble.discover$({
+            acceptAllDevices: true
+          }).subscribe((gatt: BluetoothRemoteGATTServer) => this.bleDevice = gatt.device);
+        } catch (e) {
+            console.error('Device not connected');
+          }
+          console.error(this.bleDevice);
+  }
+
   startWrite(serviceUUID, characteristicUUID, valueToWrite) {
-    console.log('Getting Battery Service...');
     
         try {
           this.ble
-            .discover$({
-              acceptAllDevices: true,
-              optionalServices: [serviceUUID]
-            })
+            .connectDevice$(this.bleDevice)
             .mergeMap((gatt: BluetoothRemoteGATTServer) => {
               return this.ble.getPrimaryService$(
                 gatt,
@@ -105,7 +122,7 @@ export class BatteryLevelService {
             }).subscribe();
             
         } catch (e) {
-          console.error('Oops! can not read value from %s');
+          console.error('Oops! can not write value');
         }
   }
 }

@@ -69,12 +69,20 @@ getAll() {
     this._batteryLevelService.getFakeValue();
   }
 
+  discoverDevice() {
+    this._batteryLevelService.discoverDevice();
+  }
+
   getBatteryLevel() {
     return this._batteryLevelService.getBatteryLevel().subscribe(this.showBatteryLevel.bind(this));
   }
 
   startNotification() {
     this._batteryLevelService.startNotification();
+  }
+
+  stopNotification() {
+    this._batteryLevelService.stopNotification();
   }
 
   startHeartrateMeasurement() {
