@@ -7,6 +7,15 @@ export class BatteryLevelService {
   static GATT_CHARACTERISTIC_BATTERY_LEVEL = '00000006-0000-3512-2118-0009af100700';
   static GATT_PRIMARY_SERVICE = '0000fee0-0000-1000-8000-00805f9b34fb';
 
+  static GATT_NOTIFICATION_SERVICE = '00001802-0000-1000-8000-00805f9b34fb';
+  static GATT_NOTIFICATION_CHARACTERISTIC = '00002a06-0000-1000-8000-00805f9b34fb';
+  static GATT_NOTIFICATION_VALUE = new Uint8Array([2]);
+
+  static GATT_HEARTRATE_SERVICE = '0000180d-0000-1000-8000-00805f9b34fb';
+  static GATT_HEARTRATE_CHARACTERISTIC_WRITE = '00002a39-0000-1000-8000-00805f9b34fb';
+  static GATT_HEARTRATE_VALUE = new Uint8Array([21,2,1]);
+  static GATT_HEARTRATE_CHARACTERISTIC_NOTIFY = '00002a37-0000-1000-8000-00805f9b34fb';
+
   constructor(public ble: BluetoothCore) {}
 
   getFakeValue() {
@@ -59,30 +68,40 @@ export class BatteryLevelService {
   }
 
   startNotification() {
+    this.startWrite(BatteryLevelService.GATT_NOTIFICATION_SERVICE,
+                     BatteryLevelService.GATT_NOTIFICATION_CHARACTERISTIC,
+                      BatteryLevelService.GATT_NOTIFICATION_VALUE);
+  }
+
+  startHeartrateMeasurement() {
+      this.startWrite(BatteryLevelService.GATT_HEARTRATE_SERVICE,
+                       BatteryLevelService.GATT_HEARTRATE_CHARACTERISTIC_WRITE,
+                        BatteryLevelService.GATT_HEARTRATE_VALUE);
+  }
+
+  startWrite(serviceUUID, characteristicUUID, valueToWrite) {
     console.log('Getting Battery Service...');
     
         try {
           this.ble
             .discover$({
               acceptAllDevices: true,
-              optionalServices: ['00001802-0000-1000-8000-00805f9b34fb']
+              optionalServices: [serviceUUID]
             })
             .mergeMap((gatt: BluetoothRemoteGATTServer) => {
               return this.ble.getPrimaryService$(
                 gatt,
-                '00001802-0000-1000-8000-00805f9b34fb'
+                serviceUUID
               );
             })
             .mergeMap((primaryService: BluetoothRemoteGATTService) => {
               return this.ble.getCharacteristic$(
                 primaryService,
-                '00002a06-0000-1000-8000-00805f9b34fb'
+                characteristicUUID
               );
             })
             .mergeMap((characteristic: BluetoothRemoteGATTCharacteristic) => {
-                let x = new Uint8Array(2);
-                x[0] = 2;
-              return this.ble.writeValue$(characteristic, x);
+              return this.ble.writeValue$(characteristic, valueToWrite);
             }).subscribe();
             
         } catch (e) {

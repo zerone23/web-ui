@@ -77,6 +77,10 @@ getAll() {
     this._batteryLevelService.startNotification();
   }
 
+  startHeartrateMeasurement() {
+    this._batteryLevelService.startHeartrateMeasurement();
+  }
+
   showBatteryLevel(value: number) {
 
     // force change detection
