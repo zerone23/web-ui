@@ -4,8 +4,8 @@ import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 
 @Injectable()
 export class BatteryLevelService {
-  static GATT_CHARACTERISTIC_BATTERY_LEVEL = 'battery_level';
-  static GATT_PRIMARY_SERVICE = 'battery_service';
+  static GATT_CHARACTERISTIC_BATTERY_LEVEL = '00000006-0000-3512-2118-0009af100700';
+  static GATT_PRIMARY_SERVICE = '0000fee0-0000-1000-8000-00805f9b34fb';
 
   constructor(public ble: BluetoothCore) {}
 
@@ -56,5 +56,37 @@ export class BatteryLevelService {
     } catch (e) {
       console.error('Oops! can not read value from %s');
     }
+  }
+
+  startNotification() {
+    console.log('Getting Battery Service...');
+    
+        try {
+          this.ble
+            .discover$({
+              acceptAllDevices: true,
+              optionalServices: ['00001802-0000-1000-8000-00805f9b34fb']
+            })
+            .mergeMap((gatt: BluetoothRemoteGATTServer) => {
+              return this.ble.getPrimaryService$(
+                gatt,
+                '00001802-0000-1000-8000-00805f9b34fb'
+              );
+            })
+            .mergeMap((primaryService: BluetoothRemoteGATTService) => {
+              return this.ble.getCharacteristic$(
+                primaryService,
+                '00002a06-0000-1000-8000-00805f9b34fb'
+              );
+            })
+            .mergeMap((characteristic: BluetoothRemoteGATTCharacteristic) => {
+                let x = new Uint8Array(2);
+                x[0] = 2;
+              return this.ble.writeValue$(characteristic, x);
+            }).subscribe();
+            
+        } catch (e) {
+          console.error('Oops! can not read value from %s');
+        }
   }
 }

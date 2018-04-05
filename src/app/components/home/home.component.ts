@@ -73,6 +73,10 @@ getAll() {
     return this._batteryLevelService.getBatteryLevel().subscribe(this.showBatteryLevel.bind(this));
   }
 
+  startNotification() {
+    this._batteryLevelService.startNotification();
+  }
+
   showBatteryLevel(value: number) {
 
     // force change detection
