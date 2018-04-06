@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { BatteryLevelService } from '../../services/battery-level.service';
 import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 
+import { ViewContainerRef } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,7 +21,7 @@ export class HomeComponent implements OnInit {
   batteryLevel: string = '--';
   device: any = {};
 
-  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService ) { }
+  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService, public toastr: ToastsManager, vcr: ViewContainerRef ) {this.toastr.setRootViewContainerRef(vcr);}
 
   ngOnInit() {
     this.getDeviceStatus();
@@ -71,6 +74,7 @@ getAll() {
 
   discoverDevice() {
     this._batteryLevelService.discoverDevice();
+    this.showSuccess();
   }
 
   observeHeartRate() {
@@ -104,6 +108,27 @@ getAll() {
       console.log('Reading battery level %d', value);
       this.batteryLevel = ''+value;
     });
+  }
+
+ //Toaster Notification; further information: https://www.npmjs.com/package/ng2-toastr
+  showSuccess() {
+    this.toastr.success('You are awesome!', 'Success!');
+  }
+
+  showError() {
+    this.toastr.error('This is not good!', 'Oops!');
+  }
+
+  showWarning() {
+    this.toastr.warning('You are being warned.', 'Alert!');
+  }
+
+  showInfo() {
+    this.toastr.info('Just some information for you.');
+  }
+
+  showCustom() {
+    this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
   }
 
 }

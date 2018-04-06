@@ -20,6 +20,8 @@ import { LandingComponent } from './components/landing/landing.component';
 
 import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
+
 
 const appRoutes: Routes = [
   { path: 'abnahme', component: AbnahmeComponent, canActivate: [AuthGuard] },
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     WebBluetoothModule.forRoot({
       enableTracing: true
-    })
+    }),
+    ToastModule.forRoot()
   ],
   providers: [AuthGuard, NoAuthGuard],
   bootstrap: [AppComponent]
