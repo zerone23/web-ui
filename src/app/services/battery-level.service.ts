@@ -97,7 +97,8 @@ export class BatteryLevelService {
   discoverDevice() {
     try{
         this.ble.discover$({
-            acceptAllDevices: true
+            acceptAllDevices: true,
+            optionalServices: [BatteryLevelService.GATT_PRIMARY_SERVICE, BatteryLevelService.GATT_HEARTRATE_SERVICE, BatteryLevelService.GATT_NOTIFICATION_SERVICE] //declare optional services (with UUID) to allow origin access to it
           }).subscribe((gatt: BluetoothRemoteGATTServer) => this.bleDevice = gatt.device);
         } catch (e) {
             console.error('Device not connected');
