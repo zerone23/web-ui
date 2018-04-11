@@ -22,6 +22,8 @@ import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+
 
 const appRoutes: Routes = [
   { path: 'abnahme', component: AbnahmeComponent, canActivate: [AuthGuard] },
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     WebBluetoothModule.forRoot({
       enableTracing: true
     }),
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    NgxChartsModule
   ],
   providers: [AuthGuard, NoAuthGuard],
   bootstrap: [AppComponent]

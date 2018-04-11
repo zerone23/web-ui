@@ -9,6 +9,11 @@ import { BluetoothCore } from '@manekinekko/angular-web-bluetooth';
 import { ViewContainerRef } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {single, multi} from './data';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,7 +26,32 @@ export class HomeComponent implements OnInit {
   batteryLevel: string = '--';
   device: any = {};
 
-  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService, public toastr: ToastsManager, vcr: ViewContainerRef ) {this.toastr.setRootViewContainerRef(vcr);}
+  single: any[];
+  multi: any[];
+
+  view: any[] = [700, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Country';
+  showYAxisLabel = true;
+  yAxisLabel = 'Population';
+
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
+
+  // line, area
+  autoScale = true;
+
+  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService, public toastr: ToastsManager, vcr: ViewContainerRef ) {
+    this.toastr.setRootViewContainerRef(vcr);
+    Object.assign(this, {single, multi});
+  }
 
   ngOnInit() {
     this.getDeviceStatus();
