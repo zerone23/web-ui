@@ -1,18 +1,24 @@
+<body>
 <div class="container">
 <!-- <strong>Status: {{ givenName ? 'logged in' : 'logged out' }} </strong> -->
-<h1 *ngIf="!givenName">Welcome!</h1>
-<h1 *ngIf="givenName">Welcome, {{givenName}} {{familyName}}!</h1>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <!-- <p>Login with Authorization Server</p>
-        <div class="checkbox">
-            <label><input type="checkbox" [(ngModel)]="requestAccessToken"> Request AccessToken</label>
-        </div> -->
-        <button class="btn btn-default" (click)="login()">Login</button>
-        <!-- <button class="btn btn-default" (click)="logout()">Logout</button> -->
+<div class="login">
+    <h1 *ngIf="!givenName">Wilkommen!</h1>
+    <h1 *ngIf="givenName">Wilkommen, {{givenName}} {{familyName}}!</h1>
+    <h3>zu</h3>
+    <img src="assets\images\ic_launcher.png">
+    <p></p>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!-- <p>Login with Authorization Server</p>
+            <div class="checkbox">
+                <label><input type="checkbox" [(ngModel)]="requestAccessToken"> Request AccessToken</label>
+            </div> -->
+            <button type="submit" class="btn btn-primary btn-block btn-large" (click)="login()">Einloggen</button>
+            <!-- <button class="btn btn-default" (click)="logout()">Logout</button> -->
 
-        <button class="btn btn-default" *ngIf="access_token" (click)="loadUserProfile()">Load User Profile</button>
+            <button class="btn btn-default" *ngIf="access_token" (click)="loadUserProfile()">Lade Userprofil</button>
+        </div>
     </div>
 </div>
 <!--
@@ -52,3 +58,4 @@
 <button class="btn btn-default" (click)="testSilentRefresh()">Test silent refresh</button>
 -->
 </div>
+</body>
