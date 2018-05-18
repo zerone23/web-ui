@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   // line, area
   autoScale = true;
 
-  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService, public toastr: ToastsManager, vcr: ViewContainerRef ) {
+  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, /*public _batteryLevelService: BatteryLevelService,*/ public toastr: ToastsManager, vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
     Object.assign(this, {single, multi});
   }
@@ -59,8 +59,13 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    this.oauthService.logOut();
-    window.location.reload();
+    this.multi[0].series.push({"name": "10","value": 88});
+    this.multi[0].series.push({"name": "11","value": 78});
+    this.multi[0].series.push({"name": "12","value": 68});
+    this.multi = [...this.multi];// trigger changedetection
+    alert(this.multi[0].series[this.multi[0].series.length - 1].name);
+    //this.oauthService.logOut();
+   // window.location.reload();
 }
 
 private results: any[];
