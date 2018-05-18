@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   single: any[];
   multi: any[];
 
-  view: any[] = [700, 400];
+  view: any[] = [700, 300];
 
   // options
   showXAxis = true;
@@ -37,9 +37,9 @@ export class HomeComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Messung';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = 'bpm';
 
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -140,9 +140,9 @@ getAll() {
     });
   }
 
- //Toaster Notification; further information: https://www.npmjs.com/package/ng2-toastr
+ //Toaster Notification; für weitere Informationen: https://www.npmjs.com/package/ng2-toastr
   showSuccess() {
-    this.toastr.success('You are awesome!', 'Success!');
+    this.toastr.success('Neue Aufgabe Abgenommen!', 'Hurra!');
   }
 
   showError() {
