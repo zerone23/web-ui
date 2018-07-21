@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   // line, area
   autoScale = true;
 
-  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, /*public _batteryLevelService: BatteryLevelService,*/ public toastr: ToastsManager, vcr: ViewContainerRef ) {
+  constructor(private oauthService: OAuthService, private http: HttpClient, public _zone: NgZone, public _batteryLevelService: BatteryLevelService, public toastr: ToastsManager, vcr: ViewContainerRef ) {
     this.toastr.setRootViewContainerRef(vcr);
     Object.assign(this, {single, multi});
   }
@@ -142,6 +142,10 @@ getAll() {
     this._zone.run( () =>  {
       console.log('Reading battery level %d', value);
       this.batteryLevel = ''+value;
+
+      this.multi[0].series.push({"name": Number(this.multi[0].series[this.multi[0].series.length - 1].name) + 1,"value": value});
+      this.multi = [...this.multi];// trigger changedetection
+
     });
   }
 
