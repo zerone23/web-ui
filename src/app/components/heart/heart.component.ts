@@ -41,6 +41,8 @@ export class HeartComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'bpm';
 
+  time = 0;
+
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
@@ -104,7 +106,7 @@ getAll() {
 
   discoverDevice() {
     this._batteryLevelService.discoverDevice();
-    this.showSuccess();
+    //this.showSuccess();
   }
 
   observeHeartRate() {
@@ -137,10 +139,14 @@ getAll() {
     this._zone.run( () =>  {
       console.log('Reading battery level %d', value);
       this.batteryLevel = ''+value;
-
+      if(value != 0 && this.time + 1 < Math.floor(Date.now() / 1000)){
       this.multi[0].series.push({"name": Number(this.multi[0].series[this.multi[0].series.length - 1].name) + 1,"value": value});
       this.multi = [...this.multi];// trigger changedetection
-
+      this.toastr.success('Messung beendet: '+ value + ' bmp', 'Herzfrequenz');
+      } else {
+        if(value == 0) {this.toastr.warning('Messung fehlgeschlagen', 'Herzfrequenz');}
+      }
+      this.time = Math.floor(Date.now() / 1000);
     });
   }
 
