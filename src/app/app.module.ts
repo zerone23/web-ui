@@ -23,6 +23,8 @@ import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { HeartComponent } from './components/heart/heart.component';
 
 
@@ -55,7 +57,8 @@ const appRoutes: Routes = [
       enableTracing: true
     }),
     ToastModule.forRoot(),
-    NgxChartsModule
+    NgxChartsModule,
+    MatProgressBarModule
   ],
   providers: [AuthGuard, NoAuthGuard],
   bootstrap: [AppComponent]
