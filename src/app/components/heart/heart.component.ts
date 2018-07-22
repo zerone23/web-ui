@@ -29,13 +29,13 @@ export class HeartComponent implements OnInit {
   single: any[];
   multi: any[];
 
-  view: any[] = [700, 300];
+  view: any[] = [screen.width, 300];
 
   // options
   showXAxis = true;
   showYAxis = true;
   gradient = false;
-  showLegend = true;
+  showLegend = false;
   showXAxisLabel = true;
   xAxisLabel = 'Messung';
   showYAxisLabel = true;
