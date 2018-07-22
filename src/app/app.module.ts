@@ -23,10 +23,12 @@ import { WebBluetoothModule } from '@manekinekko/angular-web-bluetooth';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { HeartComponent } from './components/heart/heart.component';
 
 
 const appRoutes: Routes = [
   { path: 'abnahme', component: AbnahmeComponent, canActivate: [AuthGuard] },
+  { path: 'heart', component: HeartComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'landing', component: LandingComponent, canActivate: [NoAuthGuard] },
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     AbnahmeComponent,
-    LandingComponent
+    LandingComponent,
+    HeartComponent
   ],
   imports: [
     BrowserModule,

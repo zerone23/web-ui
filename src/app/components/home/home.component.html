@@ -1,26 +1,2 @@
 <p>home works</p>
-<button routerLink="/abnahme"> Go To abnahme </button>
-<button (click)="logout()">Logout</button>
-<button (click)="getAll()">alertStudents</button>
-<button (click)="discoverDevice()">bluetoothDiscoverD</button>
-<button (click)="observeHeartRate()">obHeartrate</button>
-<button (click)="startheartrateMeasurement()">startHrM</button>
-<button (click)="startNotification()">bluetoothStartNotification</button>
-<button (click)="stopNotification()">bluetoothStopNotification</button>
-<p>{{batteryLevel}}</p>
-
-<ngx-charts-area-chart
-[view]="view"
-[scheme]="colorScheme"
-[results]="multi"
-[gradient]="gradient"
-[xAxis]="showXAxis"
-[yAxis]="showYAxis"
-[legend]="showLegend"
-[showXAxisLabel]="showXAxisLabel"
-[showYAxisLabel]="showYAxisLabel"
-[xAxisLabel]="xAxisLabel"
-[yAxisLabel]="yAxisLabel"
-[autoScale]="autoScale"
-(select)="onSelect($event)">
-</ngx-charts-area-chart>
+<button routerLink="/heart"> Go To heart </button>
